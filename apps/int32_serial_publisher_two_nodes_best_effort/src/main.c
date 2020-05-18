@@ -31,10 +31,10 @@ void main(void)
 	rcl_node_t node = rcl_get_zero_initialized_node();
 	RCCHECK(rcl_node_init(&node, "node1", "", &context, &node_ops))
 
-	
+
 	//node 2
 	rcl_context_t context2 = rcl_get_zero_initialized_context();
-	RCCHECK(rcl_init(0, NULL, &options, &context))
+	RCCHECK(rcl_init(0, NULL, &options, &context2))
 
 	rcl_node_options_t node_ops2 = rcl_node_get_default_options();
 
