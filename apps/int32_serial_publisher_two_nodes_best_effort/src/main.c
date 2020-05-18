@@ -21,18 +21,25 @@ void main(void)
 	// Optional RMW configuration 
 	rmw_init_options_t* rmw_options = rcl_init_options_get_rmw_init_options(&options);
 	RCCHECK(rmw_uros_options_set_client_key(0xDEADBEEF, rmw_options))
-
+	
+	//node 1
 	rcl_context_t context = rcl_get_zero_initialized_context();
 	RCCHECK(rcl_init(0, NULL, &options, &context))
 
 	rcl_node_options_t node_ops = rcl_node_get_default_options();
 
-	//node 1
 	rcl_node_t node = rcl_get_zero_initialized_node();
 	RCCHECK(rcl_node_init(&node, "node1", "", &context, &node_ops))
+
+	
 	//node 2
+	rcl_context_t context2 = rcl_get_zero_initialized_context();
+	RCCHECK(rcl_init(0, NULL, &options, &context))
+
+	rcl_node_options_t node_ops2 = rcl_node_get_default_options();
+
 	rcl_node_t node2 = rcl_get_zero_initialized_node();
-	RCCHECK(rcl_node_init(&node2, "node2", "", &context, &node_ops))
+	RCCHECK(rcl_node_init(&node2, "node2", "", &context2, &node_ops2))
 
 	//publisher 1
 	rcl_publisher_options_t publisher_ops = rcl_publisher_get_default_options();
