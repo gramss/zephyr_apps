@@ -9,6 +9,9 @@
 #include <rcl/error_handling.h>
 #include <std_msgs/msg/int32.h>
 
+#include <rmw_uros/options.h>
+
+
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){printk("Failed status on line %d: %d. Aborting.\n",__LINE__,(int)temp_rc);}}
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){printk("Failed status on line %d: %d. Continuing.\n",__LINE__,(int)temp_rc);}}
 
@@ -20,6 +23,8 @@ void main(void)
 
 	// Optional RMW configuration 
 	rmw_init_options_t* rmw_options = rcl_init_options_get_rmw_init_options(&options);
+	//choose USART Line 2
+	rmw_uros_options_set_serial_device("2", rmw_options);
 	RCCHECK(rmw_uros_options_set_client_key(0xDEADBEEF, rmw_options))
 
 	rcl_context_t context = rcl_get_zero_initialized_context();
