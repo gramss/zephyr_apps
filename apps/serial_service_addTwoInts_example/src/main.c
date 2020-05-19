@@ -5,11 +5,19 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include <rmw_uros/options.h>
+
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){printf("Failed status on line %d: %d. Aborting.\n",__LINE__,(int)temp_rc); return 1;}}
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){printf("Failed status on line %d: %d. Continuing.\n",__LINE__,(int)temp_rc);}}
 
 int main(int argc, const char * const * argv)
 {
+	// Optional RMW configuration 
+	rmw_init_options_t* rmw_options = rcl_init_options_get_rmw_init_options(&options);
+	//choose USART Line 2
+	rmw_uros_options_set_serial_device("2", rmw_options);
+	RCCHECK(rmw_uros_options_set_client_key(0xDEADBEEF, rmw_options))
+
 	printf("starting main\n");
 	rcl_init_options_t options = rcl_get_zero_initialized_init_options();
 	RCCHECK(rcl_init_options_init(&options, rcl_get_default_allocator()))
